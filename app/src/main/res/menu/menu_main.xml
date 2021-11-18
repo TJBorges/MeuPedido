@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.app.meupedido.MainActivity">
+    <item
+        android:id="@+id/btArchived"
+        android:icon="@android:drawable/stat_sys_download"
+        android:orderInCategory="100"
+        android:title="@string/archived_title"
+        app:showAsAction="ifRoom" />
+</menu>

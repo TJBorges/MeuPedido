@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Meu Pedido</string>
+    <string name="title_archived">Arquivados</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="home_title">Pedido Pronto</string>
+    <string name="archived_title">Arquivados</string>
+    <string name="registration_title">Novo Pedido</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <!-- order -->
+    <string name="order_label">Pedido:</string>
+    <string name="order_status">Status:</string>
+    <string name="order_list_empty">Adicione pedidos a sua lista de espera</string>
+
+    <!-- archived -->
+    <string name="archived_list_empty">Você ainda não possui pedidos arquivados</string>
+
+    <!-- new order -->
+    <string name="new_order_label_page">Digite o código do seu pedido e clique em adicionar</string>
+
+</resources>
