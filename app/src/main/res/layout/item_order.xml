@@ -3,16 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp">
+
+    <View
+        android:id="@+id/viewOrder"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/orange_light"/>
 
     <TextView
         android:id="@+id/tvOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/order_label"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,9 +32,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="RA981198198198191"
-        android:textColor="#000000"
+        android:layout_marginTop="8dp"
+        android:text="RAT98191"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/tvOrder"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +46,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/order_status"
-        android:textColor="#75000000"
+        android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvOrder" />
@@ -48,7 +58,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Em preparacao"
-        android:textColor="#75000000"
+        android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@id/tvStatusLabel"
         app:layout_constraintTop_toBottomOf="@id/tvOrderNumber" />

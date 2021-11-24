@@ -2,7 +2,7 @@
     <string name="app_name">Meu Pedido</string>
     <string name="title_archived">Arquivados</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="home_title">Pedido Pronto</string>
+    <string name="home_title">Meu Pedido</string>
     <string name="archived_title">Arquivados</string>
     <string name="registration_title">Novo Pedido</string>
     <string name="next">Next</string>
@@ -12,11 +12,21 @@
     <string name="order_label">Pedido:</string>
     <string name="order_status">Status:</string>
     <string name="order_list_empty">Adicione pedidos a sua lista de espera</string>
+    <string name="order_delete">Excluir</string>
+
+
 
     <!-- archived -->
     <string name="archived_list_empty">Você ainda não possui pedidos arquivados</string>
 
     <!-- new order -->
     <string name="new_order_label_page">Digite o código do seu pedido e clique em adicionar</string>
+    <string name="new_order_button_add">Adicionar</string>
+
+    <!-- msg subscribe -->
+    <string name="msg_subscribed">Tópico Adicionado</string>
+    <string name="msg_subscribe_failed">Topico não adicionado</string>
+
+
 
 </resources>

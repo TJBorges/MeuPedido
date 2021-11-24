@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "975430092205",
+    "project_id": "meupedido-tjb",
+    "storage_bucket": "meupedido-tjb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975430092205:android:f2c57f02b426d4def1cd24",
+        "android_client_info": {
+          "package_name": "com.app.meupedido"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "975430092205-bhk32pttahd0fl7dhjrp5n2lvucnfeq9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXC0S67bgEiRY1xthud3bgvpvbueiVLkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "975430092205-bhk32pttahd0fl7dhjrp5n2lvucnfeq9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

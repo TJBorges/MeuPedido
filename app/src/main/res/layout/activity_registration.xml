@@ -5,6 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/txtNumberOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:ems="12"
+        android:hint="RPS1156"
+        android:inputType="textShortMessage"
+        android:maxLength="20"
+        android:textAllCaps="true"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:text="@string/new_order_button_add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtNumberOrder"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
     <TextView
         android:id="@+id/tvListOrdersEmpty"
         android:layout_width="match_parent"
@@ -17,9 +42,9 @@
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/btnAdd"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

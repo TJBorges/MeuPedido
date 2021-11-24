@@ -1,4 +1,4 @@
-package com.app.pedidopronto
+package com.app.meupedido
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

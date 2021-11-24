@@ -1,56 +1,55 @@
 package com.app.meupedido.adapter
 
-import android.content.Context
+import android.util.SparseBooleanArray
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.TextView
-import com.app.meupedido.R
+import androidx.core.util.isNotEmpty
+import androidx.recyclerview.widget.RecyclerView
 import com.app.meupedido.databinding.ItemOrderBinding
 import com.app.meupedido.model.Order
-import java.lang.reflect.Array.get
 
-class OrderAdapter(private val context: Context,
-                   private val orders: List<Order>) : BaseAdapter() {
+class OrderAdapter(val orders: List<Order>) :
+    RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     private var _binding: ItemOrderBinding? = null
-
     private val binding get() = _binding!!
+    private val selectedOrders = SparseBooleanArray()
+    private var currentSelectedPos = -1
 
-    override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
-        val layoutInflater = LayoutInflater.from(context)
-        _binding = ItemOrderBinding.inflate(layoutInflater, parent, false)
-
-        val order = orders[position]
-        val holder: ViewHolder
-        val line: View
-        if (view == null) {
-            line = binding.root
-            holder = ViewHolder(line, binding)
-            line.tag = holder
-        } else {
-            line = view
-            holder = view.tag as ViewHolder
-        }
-        holder.orderNumber.text = order.number
-        holder.status.text = order.status
-
-        return line
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
+        val itemOrderBinding =
+            ItemOrderBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        return OrderViewHolder(itemOrderBinding)
     }
 
-    override fun getCount() = orders.size
-
-    override fun getItem(position: Int) = orders[position]
-
-    override fun getItemId(position: Int) = position.toLong()
-
-
-    companion object {
-        data class ViewHolder(val view: View, val binding: ItemOrderBinding) {
-            val orderNumber: TextView = binding.tvOrderNumber
-            val status: TextView = binding.tvStatus
+    override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
+        holder.bind(orders[position])
+        holder.itemView.setOnClickListener {
+            if (selectedOrders.isNotEmpty())
+                onItemClick?.invoke(position)
         }
+        holder.itemView.setOnLongClickListener {
+            onItemLongClick?.invoke(position)
+            return@setOnLongClickListener true
+        }
+        if (currentSelectedPos == position) currentSelectedPos = -1
+
     }
 
+    override fun getItemCount(): Int = orders.size
+
+    var onItemClick: ((Int) -> Unit)? = null
+    var onItemLongClick: ((Int) -> Unit)? = null
+
+    inner class OrderViewHolder(private val itemOrderBinding: ItemOrderBinding) :
+        RecyclerView.ViewHolder(itemOrderBinding.root) {
+        fun bind(order: Order) {
+            itemOrderBinding.tvOrderNumber.text = order.number
+            itemOrderBinding.tvStatus.text = order.status
+        }
+    }
 }
