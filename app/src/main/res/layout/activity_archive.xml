@@ -6,16 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ArchiveActivity">
 
-    <ListView
-        android:id="@+id/lvOrders"
-        android:layout_width="0dp"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOrdersArchiveds"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="parent"
+        tools:listitem="@layout/item_order" />
 
     <TextView
         android:id="@+id/tvListOrdersEmpty"
@@ -27,10 +29,10 @@
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/lvOrders"
-        app:layout_constraintEnd_toEndOf="@+id/lvOrders"
-        app:layout_constraintStart_toStartOf="@+id/lvOrders"
-        app:layout_constraintTop_toTopOf="@id/lvOrders" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

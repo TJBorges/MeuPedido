@@ -11,10 +11,8 @@ import com.app.meupedido.model.Order
 class OrderAdapter(val orders: List<Order>) :
     RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
-    private var _binding: ItemOrderBinding? = null
-    private val binding get() = _binding!!
     private val selectedOrders = SparseBooleanArray()
-    private var currentSelectedPos = -1
+    //private var currentSelectedPos = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val itemOrderBinding =
@@ -36,7 +34,7 @@ class OrderAdapter(val orders: List<Order>) :
             onItemLongClick?.invoke(position)
             return@setOnLongClickListener true
         }
-        if (currentSelectedPos == position) currentSelectedPos = -1
+        //if (currentSelectedPos == position) currentSelectedPos = -1
 
     }
 

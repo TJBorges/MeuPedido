@@ -39,7 +39,7 @@
             android:parentActivityName="com.app.meupedido.ArchiveActivity"/>
 
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name=".service.MyFirebaseMessagingService"
             android:exported="false"
             tools:ignore="Instantiatable">
             <intent-filter>
