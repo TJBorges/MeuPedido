@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.core.util.isNotEmpty
 import androidx.recyclerview.widget.RecyclerView
 import com.app.meupedido.databinding.ItemOrderBinding
-import com.app.meupedido.model.Order
+import com.app.meupedido.data.Order
 
 class OrderAdapter(val orders: List<Order>) :
     RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     private val selectedOrders = SparseBooleanArray()
+    private var orderList = emptyList<Order>()
     //private var currentSelectedPos = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
@@ -25,7 +26,7 @@ class OrderAdapter(val orders: List<Order>) :
     }
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
-        holder.bind(orders[position])
+        holder.bind(orderList[position])
         holder.itemView.setOnClickListener {
             if (selectedOrders.isNotEmpty())
                 onItemClick?.invoke(position)
@@ -38,7 +39,12 @@ class OrderAdapter(val orders: List<Order>) :
 
     }
 
-    override fun getItemCount(): Int = orders.size
+    override fun getItemCount(): Int = orderList.size
+
+    fun setData(order: List<Order>){
+        this.orderList = order
+        notifyDataSetChanged()
+    }
 
     var onItemClick: ((Int) -> Unit)? = null
     var onItemLongClick: ((Int) -> Unit)? = null

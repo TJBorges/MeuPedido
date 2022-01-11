@@ -9,30 +9,36 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Adapter
+import android.widget.ListAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.meupedido.adapter.OrderAdapter
+import com.app.meupedido.data.Order
+import com.app.meupedido.data.OrderViewModel
 import com.app.meupedido.databinding.ActivityMainBinding
-import com.app.meupedido.model.Order
 import com.app.meupedido.util.SwipeGesture
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     private val REGISTER_ACTIVITY_REQUEST_CODE = 0
     private val ARCHIVED_ORDER = "ARCHIVED_ORDER"
+    //private var sqlLiteHelper = SQLiteHelper
 
-    val listOrders = mutableListOf<Order>(
-        Order("RRE1458", "Em execução"),
-        Order("RAT1735", "Em execução"),
-        Order("RPW1935", "Em execução"),
-        Order("RYO1635", "Em execução"),
-        Order("PAT1335", "Em execução"),
+    //val listOrders = List<Order>(
+//        Order("RRE1458", "Em execução"),
+//        Order("RAT1735", "Em execução"),
+//        Order("RPW1935", "Em execução"),
+//        Order("RYO1635", "Em execução"),
+//        Order("PAT1335", "Em execução"),
 //        Order("PA1235", "Em execução"),
 //        Order("SR1285", "Em execução"),
 //        Order("SB1225", "Em execução"),
@@ -42,11 +48,11 @@ class MainActivity : AppCompatActivity() {
 //        Order("RA1235", "Em execução"),
 //        Order("RA1235", "Em execução"),
 //        Order("TR5896", "Em execução")
-    )
 
-    private val orderAdapter by lazy { OrderAdapter(listOrders) }
+    private val orderAdapter = OrderAdapter(emptyList())
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mOrderViewModel: OrderViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,14 +60,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        mOrderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+        mOrderViewModel.readAllData.observe(this, androidx.lifecycle.Observer { order ->
+            orderAdapter.setData(order)
+        })
+
         binding.rvOrders.adapter = orderAdapter
         binding.rvOrders.layoutManager = LinearLayoutManager(this)
+
 
         setSupportActionBar(binding.toolbar)
 
         binding.fabRegister.setOnClickListener { Register() }
 
-        showLabelEmpty()
+
 
         val swipeGesture = object : SwipeGesture(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -71,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                 builder.setTitle(R.string.order_delete)
                 builder.setMessage("Deseja excluir o pedido $numberOrder da sua lista?")
                 builder.setPositiveButton("Sim", DialogInterface.OnClickListener { dialog, id ->
-                    listOrders.removeAt(viewHolder.adapterPosition)
+                    //listOrders. removeAt(viewHolder.adapterPosition)
                     orderAdapter.notifyItemRemoved(viewHolder.adapterPosition)
                     println("Removido $numberOrder")
 
@@ -94,6 +106,7 @@ class MainActivity : AppCompatActivity() {
         val touchHelper = ItemTouchHelper(swipeGesture)
         touchHelper.attachToRecyclerView(binding.rvOrders)
 
+        showLabelEmpty()
     }
 
     private fun toastShow(numberOrder: String, type: Int) {
@@ -104,6 +117,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showLabelEmpty() {
+        val itemCount = orderAdapter.itemCount
         binding.tvListOrdersEmpty.isGone = (orderAdapter.itemCount > 0)
     }
 
@@ -128,13 +142,34 @@ class MainActivity : AppCompatActivity() {
                             }
                             Log.d(ContentValues.TAG, msg)
                         }
-                    listOrders.add(Order(numberOrderReturn, getString(R.string.order_status_in_progress)))
+//                    val order = Order(numberOrderReturn, getString(R.string.order_status_in_progress), getCurrentDateTime())
+//                    val statusInsert = sqlLiteHelper.insertOrder(order)
+
+                    insertDataToDatabase(numberOrderReturn)
+//                    listOrders.add(
+//                        Order(
+//                            numberOrderReturn,
+//                            getString(R.string.order_status_in_progress)
+//                        )
+//                    )// getCurrentDateTime()))
                     orderAdapter.notifyDataSetChanged()
                     showLabelEmpty()
                     toastShow(numberOrderReturn, 0)
                 }
             }
         }
+    }
+
+    private fun insertDataToDatabase(numberOrderReturn: String) {
+        val order = com.app.meupedido.data.Order(
+            0,
+            numberOrderReturn,
+            "Em Execução",
+            "data",
+            "Spoleto",
+            "SPL"
+        )
+        mOrderViewModel.addOrder(order)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -154,5 +189,9 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, ArchiveActivity::class.java)
         intent.putExtra("numberOrder", numberOrder)
         startActivity(intent)
+    }
+
+    fun getCurrentDateTime(): String {
+        return Calendar.getInstance().time.toString()
     }
 }
