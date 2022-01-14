@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.util.isNotEmpty
 import androidx.recyclerview.widget.RecyclerView
+import com.app.meupedido.data.Archived
 import com.app.meupedido.databinding.ItemOrderBinding
-import com.app.meupedido.model.Order
 
-class OrderArchivedAdapter(val ordersArchived: List<Order>) :
-    RecyclerView.Adapter<OrderArchivedAdapter.OrderViewHolder>() {
+class ArchivedAdapter(val Archived: List<Archived>) :
+    RecyclerView.Adapter<ArchivedAdapter.OrderViewHolder>() {
 
     private val selectedOrders = SparseBooleanArray()
-    //private var currentSelectedPos = -1
+    var archivedList = Archived
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val itemOrderBinding =
@@ -26,7 +26,7 @@ class OrderArchivedAdapter(val ordersArchived: List<Order>) :
     }
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
-        holder.bind(ordersArchived[position])
+        holder.bind(archivedList[position])
         holder.itemView.setOnClickListener {
             if (selectedOrders.isNotEmpty())
                 onItemClick?.invoke(position)
@@ -35,21 +35,24 @@ class OrderArchivedAdapter(val ordersArchived: List<Order>) :
             onItemLongClick?.invoke(position)
             return@setOnLongClickListener true
         }
-        //if (currentSelectedPos == position) currentSelectedPos = -1
-
     }
 
-    override fun getItemCount(): Int = ordersArchived.size
+    override fun getItemCount(): Int = archivedList.size
+
+    fun setData(archived: List<Archived>) {
+        this.archivedList = archived
+        notifyDataSetChanged()
+    }
 
     var onItemClick: ((Int) -> Unit)? = null
     var onItemLongClick: ((Int) -> Unit)? = null
 
     inner class OrderViewHolder(private val itemOrderBinding: ItemOrderBinding) :
         RecyclerView.ViewHolder(itemOrderBinding.root) {
-        fun bind(order: Order) {
+        fun bind(archived: Archived) {
             itemOrderBinding.viewOrder.setBackgroundColor(Color.parseColor("#00b400"))
-            itemOrderBinding.tvOrderNumber.text = order.number
-            itemOrderBinding.tvStatus.text = order.status
+            itemOrderBinding.tvOrderNumber.text = archived.number
+            itemOrderBinding.tvStatus.text = archived.status
         }
     }
 }

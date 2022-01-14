@@ -5,10 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Order::class], version = 1, exportSchema = false)
+@Database(entities = [Order::class, Archived::class], version = 1, exportSchema = false)
 abstract class OrderDatabase: RoomDatabase() {
 
     abstract fun orderDao(): OrderDao
+    abstract fun archivedDao(): ArchivedDao
 
     companion object {
         @Volatile
