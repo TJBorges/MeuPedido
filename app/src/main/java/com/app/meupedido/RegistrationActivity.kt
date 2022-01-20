@@ -19,8 +19,30 @@ class RegistrationActivity : AppCompatActivity() {
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.btnQrCode.setOnClickListener { openCamera() }
         saveRegister()
 
+    }
+
+    private fun openCamera() {
+        val intent = Intent(this, QrCodeActivity::class.java)
+        startActivityForResult(intent, 0)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0) {
+            if (resultCode == Activity.RESULT_OK) {
+                val numberOrderReturn = data!!.getStringExtra("keyName")?.uppercase()
+
+                if (!numberOrderReturn.isNullOrEmpty()) {
+                    val intent = Intent()
+                    intent.putExtra("keyName", numberOrderReturn)
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
+                }
+            }
+        }
     }
 
     private fun saveRegister() {

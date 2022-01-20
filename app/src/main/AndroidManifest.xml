@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.app.meupedido">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -37,6 +39,9 @@
         <activity android:name="com.app.meupedido.ArchiveActivity"
             android:label="@string/archived_title"
             android:parentActivityName="com.app.meupedido.ArchiveActivity"/>
+        <activity android:name="com.app.meupedido.QrCodeActivity"
+            android:label="@string/qr_code_title"
+            android:parentActivityName="com.app.meupedido.QrCodeActivity"/>
 
         <service
             android:name=".service.MyFirebaseMessagingService"

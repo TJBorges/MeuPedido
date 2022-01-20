@@ -9,8 +9,9 @@
         android:id="@+id/txtNumberOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="64dp"
-        android:ems="12"
+        android:ems="10"
         android:filterTouchesWhenObscured="false"
         android:hint="RPS1156"
         android:inputType="textCapCharacters"
@@ -18,8 +19,20 @@
         android:singleLine="true"
         android:textAllCaps="true"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnQrCode"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/txtNumberOrder"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button

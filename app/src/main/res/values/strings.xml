@@ -3,6 +3,7 @@
     <!-- Strings used for fragments for navigation -->
     <string name="archived_title">Arquivados</string>
     <string name="registration_title">Novo Pedido</string>
+    <string name="qr_code_title">QR Code</string>
 
     <!-- order -->
     <string name="order_label">Pedido:</string>
