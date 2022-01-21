@@ -51,6 +51,7 @@ class ArchivedAdapter(val Archived: List<Archived>) :
         RecyclerView.ViewHolder(itemOrderBinding.root) {
         fun bind(archived: Archived) {
             itemOrderBinding.viewOrder.setBackgroundColor(Color.parseColor("#00b400"))
+            itemOrderBinding.tvNameStore.text = archived.nameStore
             itemOrderBinding.tvOrderNumber.text = archived.number
             itemOrderBinding.tvStatus.text = archived.status
         }

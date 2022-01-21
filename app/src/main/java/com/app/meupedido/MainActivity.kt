@@ -16,13 +16,15 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.meupedido.adapter.OrderAdapter
+import com.app.meupedido.data.Order
 import com.app.meupedido.databinding.ActivityMainBinding
 import com.app.meupedido.util.SwipeGesture
+import com.app.meupedido.util.DateUtil
+import com.app.meupedido.util.NameStore
 import com.app.meupedido.viewmodel.ArchivedViewModel
 import com.app.meupedido.viewmodel.OrderViewModel
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,6 +35,8 @@ class MainActivity : AppCompatActivity() {
     private var orderAdapter = OrderAdapter(emptyList())
     private lateinit var mOrderViewModel: OrderViewModel
     private lateinit var mArchivedViewModel: ArchivedViewModel
+    private val dateUtil = DateUtil()
+    private val nameStore = NameStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,12 +138,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun insertDataToDatabase(numberOrderReturn: String) {
-        val order = com.app.meupedido.data.Order(
-            numberOrderReturn,
-            "Em Execução",
-            "data",
-            "Spoleto",
-            "SPL"
+        val date = dateUtil.getCurrentDateTime()
+        val icon = numberOrderReturn.substring(0, 3)
+        val nameStore = nameStore.name(icon)
+        val order = Order(
+            number = numberOrderReturn,
+            status = getString(R.string.order_status_in_progress),
+            date = date,
+            nameStore = nameStore,
+            icon = icon
         )
         mOrderViewModel.addOrder(order)
     }
@@ -161,9 +168,5 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, ArchiveActivity::class.java)
         intent.putExtra("numberOrder", numberOrder)
         startActivity(intent)
-    }
-
-    fun getCurrentDateTime(): String {
-        return Calendar.getInstance().time.toString()
     }
 }

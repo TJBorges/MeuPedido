@@ -51,6 +51,8 @@ class OrderAdapter(val orders: List<Order>) :
     inner class OrderViewHolder(private val itemOrderBinding: ItemOrderBinding) :
         RecyclerView.ViewHolder(itemOrderBinding.root) {
         fun bind(order: Order) {
+            //itemOrderBinding.ivStore
+            itemOrderBinding.tvNameStore.text = order.nameStore
             itemOrderBinding.tvOrderNumber.text = order.number
             itemOrderBinding.tvStatus.text = order.status
         }

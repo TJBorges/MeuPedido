@@ -10,17 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.app.meupedido.databinding.ActivityQrcodeBinding
-import com.budiyev.android.codescanner.AutoFocusMode
-import com.budiyev.android.codescanner.CodeScanner
-import com.budiyev.android.codescanner.CodeScannerView
-import com.budiyev.android.codescanner.DecodeCallback
-import com.budiyev.android.codescanner.ErrorCallback
-import com.budiyev.android.codescanner.ScanMode
+import com.app.meupedido.util.ValidateInsertOrder
+import com.budiyev.android.codescanner.*
 
 class QrCodeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityQrcodeBinding
     private lateinit var codeScanner: CodeScanner
+    private val validateInsertOrder = ValidateInsertOrder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +46,18 @@ class QrCodeActivity : AppCompatActivity() {
 
         codeScanner.decodeCallback = DecodeCallback {
             runOnUiThread {
-                var numberOrder = it.text
-                val intent = Intent()
-                intent.putExtra("keyName", numberOrder)
-                setResult(Activity.RESULT_OK, intent)
-                finish()
+                var numberOrder = it.text.uppercase()
+
+                if (validateInsertOrder.validateNumberOrder(numberOrder)) {
+                    val intent = Intent()
+                    intent.putExtra("keyName", numberOrder)
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
+                } else {
+                    Toast.makeText(this, "QrCode com número de pedido inválido", Toast.LENGTH_LONG).show()
+                    finish()
+
+                }
             }
         }
 

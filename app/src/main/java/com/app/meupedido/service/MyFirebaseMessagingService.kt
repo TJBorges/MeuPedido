@@ -12,6 +12,9 @@ import com.app.meupedido.ArchiveActivity
 import com.app.meupedido.R
 import com.app.meupedido.data.Archived
 import com.app.meupedido.data.Order
+import com.app.meupedido.util.DateUtil
+import com.app.meupedido.util.NameStore
+import com.app.meupedido.util.ValidateInsertOrder
 import com.app.meupedido.viewmodel.ArchivedViewModel
 import com.app.meupedido.viewmodel.OrderViewModel
 import com.google.firebase.ktx.Firebase
@@ -24,8 +27,11 @@ const val channeName = "com.app.meupedido"
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
-    private lateinit var  mArchivedViewModel: ArchivedViewModel
-    private lateinit var  mOrderViewModel: OrderViewModel
+    private lateinit var mArchivedViewModel: ArchivedViewModel
+    private lateinit var mOrderViewModel: OrderViewModel
+    private val dateUtil = DateUtil()
+    private val nameStore = NameStore()
+    private val validateInsertOrder = ValidateInsertOrder()
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 
@@ -34,10 +40,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         if (remoteMessage.notification != null) {
             remoteMessage.notification!!.title?.let {
-                generateNotification(
-                    it,
-                    remoteMessage.notification!!.body!!
-                )
+                val number = it.substring(11, 19).uppercase()
+                if (validateInsertOrder.validateNumberOrder(number)) {
+                    generateNotification(
+                        it,
+                        remoteMessage.notification!!.body!!
+                    )
+                }
             }
         }
 
@@ -56,13 +65,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun generateNotification(title: String, description: String) {
 
-        val number = title.substring(11,18)
-        val order: Unit
-        val archived: Archived
+        val number = title.substring(11, 19).uppercase()
 
         insertArchivedToDatabase(number)
         removeOrderToDatabase(number)
-
 
         val intent = Intent(this, ArchiveActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -93,23 +99,29 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun insertArchivedToDatabase(numberOrder: String) {
+        val date = dateUtil.getCurrentDateTime()
+        val icon = numberOrder.substring(0, 3)
+        val nameStore = nameStore.name(icon)
         val archived = Archived(
-            numberOrder,
-            "Pronto",
-            "data",
-            "Spoleto",
-            "SPL"
+            number = numberOrder,
+            status = getString(R.string.order_status_done),
+            date = date,
+            nameStore = nameStore,
+            icon = icon
         )
         mArchivedViewModel.addArchived(archived)
     }
 
     private fun removeOrderToDatabase(numberOrder: String) {
+        val date = dateUtil.getCurrentDateTime()
+        val icon = numberOrder.substring(0, 3)
+        val nameStore = nameStore.name(icon)
         val order = Order(
-            numberOrder,
-            "Em Execução",
-            "data",
-            "Spoleto",
-            "SPL"
+            number = numberOrder,
+            status = getString(R.string.order_status_in_progress),
+            date = date,
+            nameStore = nameStore,
+            icon = icon
         )
         mOrderViewModel.deleteOrder(order)
         Firebase.messaging.unsubscribeFromTopic(numberOrder)
