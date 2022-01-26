@@ -20,7 +20,7 @@ import com.app.meupedido.data.Order
 import com.app.meupedido.databinding.ActivityMainBinding
 import com.app.meupedido.util.SwipeGesture
 import com.app.meupedido.util.DateUtil
-import com.app.meupedido.util.NameStore
+import com.app.meupedido.util.DataStore
 import com.app.meupedido.viewmodel.ArchivedViewModel
 import com.app.meupedido.viewmodel.OrderViewModel
 import com.google.firebase.ktx.Firebase
@@ -32,11 +32,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private var orderAdapter = OrderAdapter(emptyList())
+    private var orderAdapter = OrderAdapter(this, emptyList())
     private lateinit var mOrderViewModel: OrderViewModel
     private lateinit var mArchivedViewModel: ArchivedViewModel
     private val dateUtil = DateUtil()
-    private val nameStore = NameStore()
+    private val nameStore = DataStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

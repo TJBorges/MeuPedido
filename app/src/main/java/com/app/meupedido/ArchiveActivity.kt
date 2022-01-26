@@ -15,7 +15,7 @@ class ArchiveActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityArchiveBinding
 
-    private val orderArchivedsAdapter = ArchivedAdapter(emptyList())
+    private val orderArchivedsAdapter = ArchivedAdapter(this, emptyList())
 
     private lateinit var mArchivedViewModel: ArchivedViewModel
 

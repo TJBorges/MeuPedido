@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="logo_stores">
+        <item>@drawable/ic_store</item>
+        <item>@drawable/bobs</item>
+        <item>@drawable/burguer_king</item>
+        <item>@drawable/giraffas</item>
+        <item>@drawable/habibs</item>
+        <item>@drawable/kfc</item>
+        <item>@drawable/mcdonalds</item>
+        <item>@drawable/pizza_hut</item>
+        <item>@drawable/spoleto</item>
+        <item>@drawable/starbucks</item>
+        <item>@drawable/subway</item>
+        <item>@drawable/vivenda_do_camarao</item>
+    </array>
+
+</resources>

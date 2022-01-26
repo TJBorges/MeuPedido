@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Meu Pedido</string>
+    <string name="app_name">Meus Pedidos</string>
     <!-- Strings used for fragments for navigation -->
     <string name="archived_title">Arquivados</string>
     <string name="registration_title">Novo Pedido</string>

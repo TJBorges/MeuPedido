@@ -4,7 +4,7 @@ import androidx.core.text.isDigitsOnly
 
 class ValidateInsertOrder {
 
-    private val nameStore = NameStore()
+    private val nameStore = DataStore()
 
     fun validateNumberOrder(number: String): Boolean {
         return (number.isNotEmpty()

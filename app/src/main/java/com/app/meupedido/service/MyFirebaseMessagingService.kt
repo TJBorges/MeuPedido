@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.content.res.TypedArray
 import android.os.Build
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
@@ -12,8 +13,8 @@ import com.app.meupedido.ArchiveActivity
 import com.app.meupedido.R
 import com.app.meupedido.data.Archived
 import com.app.meupedido.data.Order
+import com.app.meupedido.util.DataStore
 import com.app.meupedido.util.DateUtil
-import com.app.meupedido.util.NameStore
 import com.app.meupedido.util.ValidateInsertOrder
 import com.app.meupedido.viewmodel.ArchivedViewModel
 import com.app.meupedido.viewmodel.OrderViewModel
@@ -30,8 +31,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private lateinit var mArchivedViewModel: ArchivedViewModel
     private lateinit var mOrderViewModel: OrderViewModel
     private val dateUtil = DateUtil()
-    private val nameStore = NameStore()
+    private val dataStore = DataStore()
     private val validateInsertOrder = ValidateInsertOrder()
+    private val logoStore: TypedArray by lazy {
+        applicationContext.resources.obtainTypedArray(R.array.logo_stores)
+    }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 
@@ -49,23 +53,24 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 }
             }
         }
-
     }
 
-    private fun getRemoteView(title: String, description: String): RemoteViews {
+    private fun getRemoteView(title: String, description: String, logo: Int): RemoteViews {
 
         val remoteView = RemoteViews("com.app.meupedido", R.layout.notification)
 
         remoteView.setTextViewText(R.id.title, title)
         remoteView.setTextViewText(R.id.description, description)
-        remoteView.setImageViewResource(R.id.app_logo, R.drawable.ic_notification)
+        remoteView.setImageViewResource(R.id.app_logo, logoStore.getResourceId(logo, 0))
 
         return remoteView
     }
 
     private fun generateNotification(title: String, description: String) {
 
-        val number = title.substring(11, 19).uppercase()
+        val number = title.substring(11, 19).trim().uppercase()
+        val logo = dataStore.logo(number.substring(0, 3))
+
 
         insertArchivedToDatabase(number)
         removeOrderToDatabase(number)
@@ -84,7 +89,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .setOnlyAlertOnce(true)
                 .setContentIntent(pendingIntent)
 
-        builder = builder.setContent(getRemoteView(title, description))
+        builder = builder.setContent(getRemoteView(title, description, logo))
 
         val notificationManager =
             getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -101,7 +106,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun insertArchivedToDatabase(numberOrder: String) {
         val date = dateUtil.getCurrentDateTime()
         val icon = numberOrder.substring(0, 3)
-        val nameStore = nameStore.name(icon)
+        val nameStore = dataStore.name(icon)
         val archived = Archived(
             number = numberOrder,
             status = getString(R.string.order_status_done),
@@ -115,7 +120,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun removeOrderToDatabase(numberOrder: String) {
         val date = dateUtil.getCurrentDateTime()
         val icon = numberOrder.substring(0, 3)
-        val nameStore = nameStore.name(icon)
+        val nameStore = dataStore.name(icon)
         val order = Order(
             number = numberOrder,
             status = getString(R.string.order_status_in_progress),

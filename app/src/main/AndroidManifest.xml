@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.app.meupedido">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +26,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MeuPedido.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,15 +34,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.app.meupedido.RegistrationActivity"
+        <activity
+            android:name="com.app.meupedido.RegistrationActivity"
             android:label="@string/registration_title"
-            android:parentActivityName="com.app.meupedido.RegistrationActivity"/>
-        <activity android:name="com.app.meupedido.ArchiveActivity"
+            android:parentActivityName="com.app.meupedido.RegistrationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.meupedido.ArchiveActivity"
             android:label="@string/archived_title"
-            android:parentActivityName="com.app.meupedido.ArchiveActivity"/>
-        <activity android:name="com.app.meupedido.QrCodeActivity"
+            android:parentActivityName="com.app.meupedido.ArchiveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.meupedido.QrCodeActivity"
             android:label="@string/qr_code_title"
-            android:parentActivityName="com.app.meupedido.QrCodeActivity"/>
+            android:parentActivityName="com.app.meupedido.QrCodeActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".service.MyFirebaseMessagingService"

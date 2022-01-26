@@ -35,16 +35,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
-        tools:listitem="@layout/item_order"/>
+        tools:listitem="@layout/item_order" />
 <!--        tools:listitem="@layout/item_order" />-->
 
     <TextView
         android:id="@+id/tvListOrdersEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="360dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="26dp"
         android:layout_marginBottom="16dp"
         android:text="@string/order_list_empty"
         android:textAlignment="center"
@@ -60,11 +60,11 @@
         android:id="@+id/fabRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:backgroundTint="?attr/colorPrimary"
         app:backgroundTint="?attr/colorPrimary"
         app:srcCompat="@android:drawable/ic_input_add"

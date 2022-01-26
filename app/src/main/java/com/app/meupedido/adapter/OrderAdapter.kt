@@ -1,17 +1,26 @@
 package com.app.meupedido.adapter
 
+import android.content.Context
+import android.content.res.TypedArray
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.util.isNotEmpty
 import androidx.recyclerview.widget.RecyclerView
+import com.app.meupedido.R
 import com.app.meupedido.data.Order
 import com.app.meupedido.databinding.ItemOrderBinding
+import com.app.meupedido.util.DataStore
 
-class OrderAdapter(val orders: List<Order>) :
+class OrderAdapter(private val context: Context,
+                   val orders: List<Order>) :
     RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     private val selectedOrders = SparseBooleanArray()
+    private val dataStore = DataStore()
+    private val logoStore: TypedArray by lazy {
+        context.resources.obtainTypedArray(R.array.logo_stores)
+    }
     var orderList = orders
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
@@ -51,7 +60,8 @@ class OrderAdapter(val orders: List<Order>) :
     inner class OrderViewHolder(private val itemOrderBinding: ItemOrderBinding) :
         RecyclerView.ViewHolder(itemOrderBinding.root) {
         fun bind(order: Order) {
-            //itemOrderBinding.ivStore
+            val logo = dataStore.logo(order.icon)
+            itemOrderBinding.ivStore.setImageDrawable(logoStore.getDrawable(logo))
             itemOrderBinding.tvNameStore.text = order.nameStore
             itemOrderBinding.tvOrderNumber.text = order.number
             itemOrderBinding.tvStatus.text = order.status
