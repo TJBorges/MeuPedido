@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.content.res.TypedArray
 import android.os.Build
+import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.app.meupedido.ArchiveActivity
@@ -37,6 +38,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         applicationContext.resources.obtainTypedArray(R.array.logo_stores)
     }
 
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+        Log.d("TOKEN:", token)
+    }
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 
         mArchivedViewModel = ArchivedViewModel(Application())
@@ -50,6 +56,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                         it,
                         remoteMessage.notification!!.body!!
                     )
+                }
+            }
+        } else if (remoteMessage.data.isNotEmpty()) {
+            val data: Map<String, String> = remoteMessage.data
+            if (data["title"].toString().isNotEmpty()) {
+                val number = data["title"]?.substring(11, 19)?.uppercase() ?: ""
+                if (validateInsertOrder.validateNumberOrder(number)) {
+                    val title = data["title"]
+                    val description = data["description"]
+                    generateNotification(title ?: "", description ?: "")
                 }
             }
         }
@@ -70,7 +86,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val number = title.substring(11, 19).trim().uppercase()
         val logo = dataStore.logo(number.substring(0, 3))
-
 
         insertArchivedToDatabase(number)
         removeOrderToDatabase(number)

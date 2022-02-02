@@ -20,7 +20,7 @@
              notification message. See README(https://goo.gl/6BKBk7) for more. -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/orange_original" />
+            android:resource="@drawable/ic_launcher_background" />
 
         <activity
             android:name=".MainActivity"
@@ -52,8 +52,7 @@
 
         <service
             android:name=".service.MyFirebaseMessagingService"
-            android:exported="false"
-            tools:ignore="Instantiatable">
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
