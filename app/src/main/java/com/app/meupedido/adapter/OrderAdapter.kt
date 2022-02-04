@@ -11,13 +11,17 @@ import com.app.meupedido.R
 import com.app.meupedido.data.Order
 import com.app.meupedido.databinding.ItemOrderBinding
 import com.app.meupedido.util.DataStore
+import com.app.meupedido.util.DateUtil
 
-class OrderAdapter(private val context: Context,
-                   val orders: List<Order>) :
+class OrderAdapter(
+    private val context: Context,
+    val orders: List<Order>,
+) :
     RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     private val selectedOrders = SparseBooleanArray()
     private val dataStore = DataStore()
+    private val dateUtil = DateUtil()
     private val logoStore: TypedArray by lazy {
         context.resources.obtainTypedArray(R.array.logo_stores)
     }
@@ -61,10 +65,12 @@ class OrderAdapter(private val context: Context,
         RecyclerView.ViewHolder(itemOrderBinding.root) {
         fun bind(order: Order) {
             val logo = dataStore.logo(order.icon)
+            val date = dateUtil.getTreatedDateTime(order.date)
             itemOrderBinding.ivStore.setImageDrawable(logoStore.getDrawable(logo))
             itemOrderBinding.tvNameStore.text = order.nameStore
             itemOrderBinding.tvOrderNumber.text = order.number
             itemOrderBinding.tvStatus.text = order.status
+            itemOrderBinding.tvDateTime.text = date
         }
     }
 }

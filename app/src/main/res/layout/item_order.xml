@@ -9,7 +9,7 @@
     <View
         android:id="@+id/viewOrder"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -98,4 +98,29 @@
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@id/tvStatusLabel"
         app:layout_constraintTop_toTopOf="@id/tvOrder" />
+
+    <TextView
+        android:id="@+id/lbDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/order_date_time"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvOrder" />
+
+    <TextView
+        android:id="@+id/tvDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="01/01/2022 08:45:12"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/lbDateTime"
+        app:layout_constraintTop_toTopOf="@id/lbDateTime" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

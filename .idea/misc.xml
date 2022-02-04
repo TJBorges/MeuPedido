@@ -8,10 +8,10 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2140625" />
         <entry key="app/src/main/res/drawable/ic_store.xml" value="0.36615384615384616" />
         <entry key="app/src/main/res/layout/activity_archive.xml" value="0.21" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_qrcode.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_registration.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/item_order.xml" value="0.8322981366459627" />
+        <entry key="app/src/main/res/layout/activity_registration.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_order.xml" value="0.2753623188405797" />
         <entry key="app/src/main/res/layout/notification.xml" value="0.22" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.19814814814814816" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.36615384615384616" />

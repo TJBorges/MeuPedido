@@ -15,7 +15,7 @@
         android:filterTouchesWhenObscured="false"
         android:hint="RPS1156"
         android:inputType="textCapCharacters"
-        android:maxLength="20"
+        android:maxLength="9"
         android:singleLine="true"
         android:textAllCaps="true"
         android:textSize="24sp"

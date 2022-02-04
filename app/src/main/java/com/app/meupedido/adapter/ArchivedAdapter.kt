@@ -12,6 +12,7 @@ import com.app.meupedido.R
 import com.app.meupedido.data.Archived
 import com.app.meupedido.databinding.ItemOrderBinding
 import com.app.meupedido.util.DataStore
+import com.app.meupedido.util.DateUtil
 
 class ArchivedAdapter(val context: Context,
                       val Archived: List<Archived>) :
@@ -19,6 +20,7 @@ class ArchivedAdapter(val context: Context,
 
     private val selectedOrders = SparseBooleanArray()
     private val dataStore = DataStore()
+    private val dateUtil = DateUtil()
     private val logoStore: TypedArray by lazy {
         context.resources.obtainTypedArray(R.array.logo_stores)
     }
@@ -61,10 +63,12 @@ class ArchivedAdapter(val context: Context,
         fun bind(archived: Archived) {
             itemOrderBinding.viewOrder.setBackgroundColor(Color.parseColor("#00b400"))
             val logo = dataStore.logo(archived.icon)
+            val date = dateUtil.getTreatedDateTime(archived.date)
             itemOrderBinding.ivStore.setImageDrawable(logoStore.getDrawable(logo))
             itemOrderBinding.tvNameStore.text = archived.nameStore
             itemOrderBinding.tvOrderNumber.text = archived.number
             itemOrderBinding.tvStatus.text = archived.status
+            itemOrderBinding.tvDateTime.text = date
         }
     }
 }

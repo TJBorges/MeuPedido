@@ -10,6 +10,7 @@
     <string name="order_status">Status:</string>
     <string name="order_status_in_progress">Em execução</string>
     <string name="order_status_done">Pronto</string>
+    <string name="order_date_time">Data e Horário:</string>
     <string name="order_list_empty">Adicione pedidos a sua lista de espera</string>
     <string name="order_delete">Excluir</string>
 
