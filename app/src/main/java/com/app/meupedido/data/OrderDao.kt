@@ -15,6 +15,6 @@ interface OrderDao {
     @Query("DELETE FROM orderTable")
     suspend fun deleteAllOrders()
 
-    @Query("SELECT * FROM orderTable ORDER BY date ASC")
+    @Query("SELECT * FROM orderTable ORDER BY date")
     fun readAllData(): LiveData<List<Order>>
 }

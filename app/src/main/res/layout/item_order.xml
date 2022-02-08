@@ -100,18 +100,6 @@
         app:layout_constraintTop_toTopOf="@id/tvOrder" />
 
     <TextView
-        android:id="@+id/lbDateTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/order_date_time"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvOrder" />
-
-    <TextView
         android:id="@+id/tvDateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -120,7 +108,7 @@
         android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/lbDateTime"
-        app:layout_constraintTop_toTopOf="@id/lbDateTime" />
+        app:layout_constraintStart_toStartOf="@id/tvOrder"
+        app:layout_constraintTop_toBottomOf="@id/tvOrder" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

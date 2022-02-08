@@ -25,7 +25,7 @@
     <!-- msg subscribe -->
     <string name="msg_subscribed">Tópico Adicionado</string>
     <string name="msg_subscribe_failed">Topico não adicionado</string>
-
+    <string name="notification_messaging">Description from notification from firebase messaging</string>
 
 
 </resources>
