@@ -48,6 +48,11 @@ class MainActivity : AppCompatActivity() {
         mOrderViewModel.readAllData.observe(this, androidx.lifecycle.Observer { order ->
             orderAdapter.setData(order)
             showLabelEmpty()
+
+
+            for (item in order.indices)
+                if (order[item].date == dateUtil.getCurrentDateTime() && order[item].status == "Pronto")
+                    showDialogNotification(order[item].number)
         })
 
         mArchivedViewModel = ViewModelProvider(this)[ArchivedViewModel::class.java]
@@ -93,6 +98,23 @@ class MainActivity : AppCompatActivity() {
         touchHelper.attachToRecyclerView(binding.rvOrders)
 
         showLabelEmpty()
+    }
+
+    private fun showDialogNotification(number: String) {
+        var builder = AlertDialog.Builder(this@MainActivity)
+        builder.setTitle(R.string.order_delete)
+        builder.setMessage("Deseja excluir o pedido $number da sua lista?")
+        builder.setPositiveButton("Sim") { dialog, id ->
+            showLabelEmpty()
+            dialog.cancel()
+        }
+        builder.setNegativeButton("Não") { dialog, id ->
+            orderAdapter.notifyDataSetChanged()
+            dialog.cancel()
+        }
+        builder.setCancelable(false)
+        var alert = builder.create()
+        alert.show()
     }
 
     private fun toastShow(numberOrder: String, type: Int) {

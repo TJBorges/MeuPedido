@@ -2,6 +2,7 @@ package com.app.meupedido.adapter
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Color
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -66,6 +67,8 @@ class OrderAdapter(
         fun bind(order: Order) {
             val logo = dataStore.logo(order.icon)
             val date = dateUtil.getTreatedDateTime(order.date)
+            if (order.status == "Pronto")
+                itemOrderBinding.viewOrder.setBackgroundColor(Color.parseColor("#00b400"))
             itemOrderBinding.ivStore.setImageDrawable(logoStore.getDrawable(logo))
             itemOrderBinding.tvNameStore.text = order.nameStore
             itemOrderBinding.tvOrderNumber.text = order.number

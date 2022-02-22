@@ -3,6 +3,8 @@ package com.app.meupedido
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.Spanned
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.isDigitsOnly
@@ -19,6 +21,16 @@ class RegistrationActivity : AppCompatActivity() {
 
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val regex = Regex("[^a-zA-Z0-9]")
+        binding.txtNumberOrder.filters = arrayOf(object : InputFilter {
+            override fun filter(
+                source: CharSequence?, start: Int, end: Int,
+                dest: Spanned?, dstart: Int, dend: Int,
+            ): CharSequence {
+                return source?.subSequence(start, end)?.replace(regex, "").toString()
+            }
+        })
 
         binding.btnQrCode.setOnClickListener { openCamera() }
         saveRegister()
