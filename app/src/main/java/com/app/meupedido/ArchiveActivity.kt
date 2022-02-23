@@ -7,7 +7,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.meupedido.adapter.ArchivedAdapter
-import com.app.meupedido.data.Archived
 import com.app.meupedido.databinding.ActivityArchiveBinding
 import com.app.meupedido.viewmodel.ArchivedViewModel
 
@@ -31,22 +30,10 @@ class ArchiveActivity : AppCompatActivity() {
             showLabelEmpty()
         })
 
-
         binding.rvOrdersArchiveds.adapter = orderArchivedsAdapter
         binding.rvOrdersArchiveds.layoutManager = LinearLayoutManager(this)
 
         showLabelEmpty()
-    }
-
-    fun insertArchivedToDatabase(numberOrder: String) {
-        val archived = Archived(
-            numberOrder,
-            "Em Execução",
-            "data",
-            "Spoleto",
-            "SPL"
-        )
-        mArchivedViewModel.addArchived(archived)
     }
 
     private fun showLabelEmpty() {

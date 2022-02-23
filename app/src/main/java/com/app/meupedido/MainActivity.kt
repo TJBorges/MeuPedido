@@ -16,11 +16,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.meupedido.adapter.OrderAdapter
-import com.app.meupedido.data.Order
 import com.app.meupedido.databinding.ActivityMainBinding
-import com.app.meupedido.util.SwipeGesture
-import com.app.meupedido.util.DateUtil
 import com.app.meupedido.util.DataStore
+import com.app.meupedido.util.DateUtil
+import com.app.meupedido.util.SwipeGesture
 import com.app.meupedido.viewmodel.ArchivedViewModel
 import com.app.meupedido.viewmodel.OrderViewModel
 import com.google.firebase.ktx.Firebase
@@ -44,56 +43,116 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         mOrderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
-        mOrderViewModel.readAllData.observe(this, androidx.lifecycle.Observer { order ->
-            orderAdapter.setData(order)
-            showLabelEmpty()
-
-
-            for (item in order.indices)
-                if (order[item].date == dateUtil.getCurrentDateTime() && order[item].status == "Pronto")
-                    showDialogNotification(order[item].number)
-        })
+        loadAdapter()
 
         mArchivedViewModel = ViewModelProvider(this)[ArchivedViewModel::class.java]
-
-        binding.rvOrders.adapter = orderAdapter
-        binding.rvOrders.layoutManager = LinearLayoutManager(this)
-
 
         setSupportActionBar(binding.toolbar)
 
         binding.fabRegister.setOnClickListener { register() }
 
+        swipeGesture()
+    }
 
+    private fun loadAdapter() {
+        mOrderViewModel.readAllData.observe(this, androidx.lifecycle.Observer { order ->
+            orderAdapter.setData(order)
+            showLabelEmpty()
+
+            for (item in order.indices)
+                if (order[item].date == dateUtil.getCurrentDateTime() && order[item].status == "Pronto")
+                    showDialogNotification(order[item].number)
+        })
+        binding.rvOrders.adapter = orderAdapter
+        binding.rvOrders.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun swipeGesture() {
         val swipeGesture = object : SwipeGesture(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val numberOrder = orderAdapter.orderList[viewHolder.adapterPosition].number
 
-                var builder = AlertDialog.Builder(this@MainActivity)
-                builder.setTitle(R.string.order_delete)
-                builder.setMessage("Deseja excluir o pedido $numberOrder da sua lista?")
-                builder.setPositiveButton("Sim") { dialog, id ->
-                    mOrderViewModel.deleteOrder(orderAdapter.orderList[viewHolder.adapterPosition])
-                    orderAdapter.notifyItemRemoved(viewHolder.adapterPosition)
-                    println("Removido $numberOrder")
+                when (direction) {
 
-                    Firebase.messaging.unsubscribeFromTopic(numberOrder)
+                    ItemTouchHelper.RIGHT -> {
+                        val numberOrder = orderAdapter.orderList[viewHolder.adapterPosition].number
+                        if (orderAdapter.orderList[viewHolder.adapterPosition].status == "Em execução") {
 
-                    toastShow(numberOrder, 1)
-                    showLabelEmpty()
-                    dialog.cancel()
+                            var builder = AlertDialog.Builder(this@MainActivity)
+                            builder.setTitle(R.string.order_delete)
+                            builder.setMessage(getString(R.string.dialog_delete, numberOrder))
+                            builder.setPositiveButton("Sim") { dialog, id ->
+                                mOrderViewModel.removeOrderToDatabase(numberOrder)
+                                orderAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                                Log.d("MainActivity", "Removido $numberOrder")
+
+                                Firebase.messaging.unsubscribeFromTopic(numberOrder)
+
+                                toastShow(numberOrder, 1)
+                                showLabelEmpty()
+                                dialog.cancel()
+                            }
+                            builder.setNegativeButton("Não") { dialog, id ->
+                                orderAdapter.notifyDataSetChanged()
+                                dialog.cancel()
+                            }
+                            builder.setCancelable(false)
+                            var alert = builder.create()
+                            alert.show()
+                        } else {
+                            var builder = AlertDialog.Builder(this@MainActivity)
+                            builder.setTitle(R.string.order_delete)
+                            builder.setMessage(R.string.dialog_not_delete)
+                            builder.setPositiveButton("OK") { dialog, id ->
+                                orderAdapter.notifyDataSetChanged()
+                                dialog.cancel()
+                            }
+                            builder.setCancelable(false)
+                            var alert = builder.create()
+                            alert.show()
+                        }
+                    }
+                    ItemTouchHelper.LEFT -> {
+                        val numberOrder = orderAdapter.orderList[viewHolder.adapterPosition].number
+                        if (orderAdapter.orderList[viewHolder.adapterPosition].status == "Pronto") {
+
+                            var builder = AlertDialog.Builder(this@MainActivity)
+                            builder.setTitle(R.string.order_archive)
+                            builder.setMessage(getString(R.string.dialog_archived, numberOrder))
+                            builder.setPositiveButton("Sim") { dialog, id ->
+                                mOrderViewModel.removeOrderToDatabase(numberOrder)
+                                mArchivedViewModel.insertArchivedToDatabase(numberOrder)
+                                Firebase.messaging.unsubscribeFromTopic(numberOrder)
+
+                                toastShow(numberOrder, 3)
+                                showLabelEmpty()
+                                dialog.cancel()
+                            }
+                            builder.setNegativeButton("Não") { dialog, id ->
+                                orderAdapter.notifyDataSetChanged()
+                                dialog.cancel()
+                            }
+                            builder.setCancelable(false)
+                            var alert = builder.create()
+                            alert.show()
+                        } else {
+                            var builder = AlertDialog.Builder(this@MainActivity)
+                            builder.setTitle(R.string.order_archive)
+                            builder.setMessage(R.string.dialog_not_archived)
+                            builder.setPositiveButton("OK") { dialog, id ->
+                                orderAdapter.notifyDataSetChanged()
+                                dialog.cancel()
+                            }
+                            builder.setCancelable(false)
+                            var alert = builder.create()
+                            alert.show()
+                        }
+                    }
                 }
-                builder.setNegativeButton("Não") { dialog, id ->
-                    orderAdapter.notifyDataSetChanged()
-                    dialog.cancel()
-                }
-                builder.setCancelable(false)
-                var alert = builder.create()
-                alert.show()
-
             }
         }
+
         val touchHelper = ItemTouchHelper(swipeGesture)
         touchHelper.attachToRecyclerView(binding.rvOrders)
 
@@ -101,10 +160,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showDialogNotification(number: String) {
+        val nameStore = nameStore.name(number.substring(0, 3))
         var builder = AlertDialog.Builder(this@MainActivity)
-        builder.setTitle(R.string.order_delete)
-        builder.setMessage("Deseja excluir o pedido $number da sua lista?")
+        builder.setTitle(getString(R.string.dialog_notification_title, number, nameStore))
+        builder.setMessage(getString(R.string.dialog_notification_message))
         builder.setPositiveButton("Sim") { dialog, id ->
+            mArchivedViewModel.insertArchivedToDatabase(number)
+            mOrderViewModel.removeOrderToDatabase(number)
+            Firebase.messaging.unsubscribeFromTopic(number)
+
             showLabelEmpty()
             dialog.cancel()
         }
@@ -118,10 +182,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun toastShow(numberOrder: String, type: Int) {
-        if (type == 0)
-            Toast.makeText(this, "O pedido $numberOrder foi adicionado", Toast.LENGTH_SHORT).show()
-        else
-            Toast.makeText(this, "O pedido $numberOrder foi removido", Toast.LENGTH_SHORT).show()
+        when (type) {
+            0 -> Toast.makeText(this,
+                getString(R.string.toast_add, numberOrder),
+                Toast.LENGTH_SHORT)
+                .show()
+            1 -> Toast.makeText(this,
+                getString(R.string.toast_remove, numberOrder),
+                Toast.LENGTH_SHORT)
+                .show()
+            else -> Toast.makeText(this,
+                getString(R.string.toast_archived, numberOrder),
+                Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 
     private fun showLabelEmpty() {
@@ -149,7 +223,8 @@ class MainActivity : AppCompatActivity() {
                             Log.d(ContentValues.TAG, msg)
                         }
 
-                    insertDataToDatabase(numberOrderReturn)
+                    mOrderViewModel.insertOrderToDatabase(numberOrderReturn,
+                        getString(R.string.order_status_in_progress))
 
                     orderAdapter.notifyDataSetChanged()
                     showLabelEmpty()
@@ -157,20 +232,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun insertDataToDatabase(numberOrderReturn: String) {
-        val date = dateUtil.getCurrentDateTime()
-        val icon = numberOrderReturn.substring(0, 3)
-        val nameStore = nameStore.name(icon)
-        val order = Order(
-            number = numberOrderReturn,
-            status = getString(R.string.order_status_in_progress),
-            date = date,
-            nameStore = nameStore,
-            icon = icon
-        )
-        mOrderViewModel.addOrder(order)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

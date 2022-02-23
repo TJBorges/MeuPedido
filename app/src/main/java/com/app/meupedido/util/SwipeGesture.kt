@@ -3,13 +3,14 @@ package com.app.meupedido.util
 import android.R
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 abstract class SwipeGesture(context: Context) : ItemTouchHelper.SimpleCallback(
-    0, ItemTouchHelper.RIGHT
+    0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
 ) {
 
     private val deleteColor = ContextCompat.getColor(context, R.color.holo_red_light)
@@ -17,11 +18,16 @@ abstract class SwipeGesture(context: Context) : ItemTouchHelper.SimpleCallback(
     private val deleteLabelColor = ContextCompat.getColor(context, R.color.white)
     private val deleteIcon = R.drawable.ic_menu_delete
 
+    private val archivedColor = Color.parseColor("#008a00")
+    private val archivedIconColor = ContextCompat.getColor(context, R.color.white)
+    private val archivedLabelColor = ContextCompat.getColor(context, R.color.white)
+    private val archivedIcon = R.drawable.stat_sys_download
+
 
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
-        target: RecyclerView.ViewHolder
+        target: RecyclerView.ViewHolder,
     ): Boolean {
         return false
     }
@@ -33,23 +39,24 @@ abstract class SwipeGesture(context: Context) : ItemTouchHelper.SimpleCallback(
         dX: Float,
         dY: Float,
         actionState: Int,
-        isCurrentlyActive: Boolean
+        isCurrentlyActive: Boolean,
     ) {
 
         RecyclerViewSwipeDecorator.Builder(
-            c,
-            recyclerView,
-            viewHolder,
-            dX,
-            dY,
-            actionState,
-            isCurrentlyActive
+            c, recyclerView, viewHolder, dX,
+            dY, actionState, isCurrentlyActive
         )
             .addSwipeRightBackgroundColor(deleteColor)
             .addSwipeRightActionIcon(deleteIcon)
-            .setActionIconTint(deleteIconColor)
+            .setSwipeRightActionIconTint(deleteIconColor)
             .addSwipeRightLabel("Excluir")
             .setSwipeRightLabelColor(deleteLabelColor)
+
+            .addSwipeLeftBackgroundColor(archivedColor)
+            .addSwipeLeftActionIcon(archivedIcon)
+            .setSwipeLeftActionIconTint(archivedIconColor)
+            .addSwipeLeftLabel("Arquivar")
+            .setSwipeLeftLabelColor(archivedLabelColor)
             .create()
             .decorate()
 

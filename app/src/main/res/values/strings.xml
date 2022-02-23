@@ -13,7 +13,7 @@
     <string name="order_date_time">Data e Horário:</string>
     <string name="order_list_empty">Adicione pedidos a sua lista de espera</string>
     <string name="order_delete">Excluir</string>
-
+    <string name="order_archive">Arquivar</string>
 
     <!-- archived -->
     <string name="archived_list_empty">Você ainda não possui pedidos arquivados</string>
@@ -22,10 +22,22 @@
     <string name="new_order_label_page">Digite o código do seu pedido e clique em adicionar</string>
     <string name="new_order_button_add">Adicionar</string>
 
+    <!-- dialog -->
+    <string name="dialog_delete">Deseja excluir o pedido %s da sua lista?</string>
+    <string name="dialog_not_delete">Não é possível excluir pedidos que já estão prontos \nVocê ainda pode arquiva-los</string>
+    <string name="dialog_archived">Deseja arquivar o pedido %s e confirmar a retirada?</string>
+    <string name="dialog_not_archived">Você só pode arquivar pedidos prontos</string>
+    <string name="dialog_notification_title">Seu pedido %s na %s está pronto</string>
+    <string name="dialog_notification_message">Deseja arquivar o pedido agora?</string>
+
+    <!-- toast -->
+    <string name="toast_add">O pedido %s foi adicionado</string>
+    <string name="toast_remove">O pedido %s foi removido</string>
+    <string name="toast_archived">O pedido %s foi arquivado</string>
+
     <!-- msg subscribe -->
     <string name="msg_subscribed">Tópico Adicionado</string>
     <string name="msg_subscribe_failed">Topico não adicionado</string>
     <string name="notification_messaging">Description from notification from firebase messaging</string>
-
 
 </resources>

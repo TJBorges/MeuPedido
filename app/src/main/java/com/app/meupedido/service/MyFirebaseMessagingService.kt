@@ -1,6 +1,9 @@
 package com.app.meupedido.service
 
-import android.app.*
+import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.res.TypedArray
 import android.os.Build
@@ -8,19 +11,14 @@ import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.app.meupedido.ArchiveActivity
-import com.app.meupedido.MainActivity
 import com.app.meupedido.R
-import com.app.meupedido.data.Archived
-import com.app.meupedido.data.Order
 import com.app.meupedido.util.DataStore
 import com.app.meupedido.util.DateUtil
 import com.app.meupedido.util.ValidateInsertOrder
 import com.app.meupedido.viewmodel.ArchivedViewModel
 import com.app.meupedido.viewmodel.OrderViewModel
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.google.firebase.messaging.ktx.messaging
 
 const val channelId = "notification_channel"
 const val channeName = "com.app.meupedido"
@@ -85,10 +83,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val number = title.substring(11, 19).trim().uppercase()
         val logo = dataStore.logo(number.substring(0, 3))
 
-        //insertArchivedToDatabase(number)
-        removeOrderToDatabase(number)
-        insertOrderToDatabase(number)
-
+        mOrderViewModel.removeOrderToDatabase(number)
+        mOrderViewModel.insertOrderToDatabase(number, getString(R.string.order_status_done))
 
         val intent = Intent(this, ArchiveActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -117,48 +113,5 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         notificationManager.notify(0, builder.build())
 
-    }
-
-    private fun insertArchivedToDatabase(numberOrder: String) {
-        val date = dateUtil.getCurrentDateTime()
-        val icon = numberOrder.substring(0, 3)
-        val nameStore = dataStore.name(icon)
-        val archived = Archived(
-            number = numberOrder,
-            status = getString(R.string.order_status_done),
-            date = date,
-            nameStore = nameStore,
-            icon = icon
-        )
-        mArchivedViewModel.addArchived(archived)
-    }
-
-    private fun insertOrderToDatabase(numberOrder: String) {
-        val date = dateUtil.getCurrentDateTime()
-        val icon = numberOrder.substring(0, 3)
-        val nameStore = dataStore.name(icon)
-        val order = Order(
-            number = numberOrder,
-            status = getString(R.string.order_status_done),
-            date = date,
-            nameStore = nameStore,
-            icon = icon
-        )
-        mOrderViewModel.addOrder(order)
-    }
-
-    private fun removeOrderToDatabase(numberOrder: String) {
-        val date = dateUtil.getCurrentDateTime()
-        val icon = numberOrder.substring(0, 3)
-        val nameStore = dataStore.name(icon)
-        val order = Order(
-            number = numberOrder,
-            status = getString(R.string.order_status_in_progress),
-            date = date,
-            nameStore = nameStore,
-            icon = icon
-        )
-        mOrderViewModel.deleteOrder(order)
-        Firebase.messaging.unsubscribeFromTopic(numberOrder)
     }
 }

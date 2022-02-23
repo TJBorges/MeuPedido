@@ -48,8 +48,6 @@ class OrderAdapter(
             onItemLongClick?.invoke(position)
             return@setOnLongClickListener true
         }
-        //if (currentSelectedPos == position) currentSelectedPos = -1
-
     }
 
     override fun getItemCount(): Int = orderList.size
@@ -69,6 +67,7 @@ class OrderAdapter(
             val date = dateUtil.getTreatedDateTime(order.date)
             if (order.status == "Pronto")
                 itemOrderBinding.viewOrder.setBackgroundColor(Color.parseColor("#00b400"))
+            else itemOrderBinding.viewOrder.setBackgroundColor(Color.parseColor("#ffa000"))
             itemOrderBinding.ivStore.setImageDrawable(logoStore.getDrawable(logo))
             itemOrderBinding.tvNameStore.text = order.nameStore
             itemOrderBinding.tvOrderNumber.text = order.number
