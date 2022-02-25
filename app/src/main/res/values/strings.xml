@@ -2,6 +2,7 @@
     <string name="app_name">Meus Pedidos</string>
     <!-- Strings used for fragments for navigation -->
     <string name="archived_title">Arquivados</string>
+    <string name="settings_title">Config.</string>
     <string name="registration_title">Novo Pedido</string>
     <string name="qr_code_title">QR Code</string>
 
@@ -17,6 +18,9 @@
 
     <!-- archived -->
     <string name="archived_list_empty">Você ainda não possui pedidos arquivados</string>
+
+    <!-- settings -->
+    <string name="settings_description">Deseja que seus pedidos sejam arquivados automáticamente?</string>
 
     <!-- new order -->
     <string name="new_order_label_page">Digite o código do seu pedido e clique em adicionar</string>

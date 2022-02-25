@@ -5,13 +5,16 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2140625" />
         <entry key="app/src/main/res/drawable-v24/ic_notification.xml" value="0.20677083333333332" />
+        <entry key="app/src/main/res/drawable/ic_archive.xml" value="0.1945" />
         <entry key="app/src/main/res/drawable/ic_archive_24.xml" value="0.1905" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2140625" />
+        <entry key="app/src/main/res/drawable/ic_settings_applications.xml" value="0.295" />
         <entry key="app/src/main/res/drawable/ic_store.xml" value="0.36615384615384616" />
         <entry key="app/src/main/res/layout/activity_archive.xml" value="0.21" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_qrcode.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_registration.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_settings.xml" value="0.3541666666666667" />
         <entry key="app/src/main/res/layout/item_order.xml" value="0.25" />
         <entry key="app/src/main/res/layout/notification.xml" value="0.67" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.33" />

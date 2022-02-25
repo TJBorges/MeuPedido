@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.TypedArray
 import android.os.Build
 import android.util.Log
@@ -14,7 +15,6 @@ import com.app.meupedido.ArchiveActivity
 import com.app.meupedido.MainActivity
 import com.app.meupedido.R
 import com.app.meupedido.util.DataStore
-import com.app.meupedido.util.DateUtil
 import com.app.meupedido.util.ValidateInsertOrder
 import com.app.meupedido.viewmodel.ArchivedViewModel
 import com.app.meupedido.viewmodel.OrderViewModel
@@ -28,9 +28,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private lateinit var mArchivedViewModel: ArchivedViewModel
     private lateinit var mOrderViewModel: OrderViewModel
-    private val dateUtil = DateUtil()
     private val dataStore = DataStore()
     private val validateInsertOrder = ValidateInsertOrder()
+    private lateinit var prefs: SharedPreferences
     private val logoStore: TypedArray by lazy {
         applicationContext.resources.obtainTypedArray(R.array.logo_stores)
     }
@@ -81,13 +81,19 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun generateNotification(title: String, description: String) {
 
+        var intent = Intent(this, MainActivity::class.java)
+        prefs = this.getSharedPreferences("my_orders_prefs", 0)
         val number = title.substring(11, 19).trim().uppercase()
         val logo = dataStore.logo(number.substring(0, 3))
 
         mOrderViewModel.removeOrderToDatabase(number)
-        mOrderViewModel.insertOrderToDatabase(number, getString(R.string.order_status_done))
 
-        val intent = Intent(this, MainActivity::class.java)
+        if (prefs.getBoolean("auto_archive_unit", false)) {
+            mArchivedViewModel.insertArchivedToDatabase(number)
+            intent = Intent(this, ArchiveActivity::class.java)
+        } else
+            mOrderViewModel.insertOrderToDatabase(number, getString(R.string.order_status_done))
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
         val pendingIntent =

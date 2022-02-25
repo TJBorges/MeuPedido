@@ -8,4 +8,11 @@
         android:orderInCategory="100"
         android:title="@string/archived_title"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/btSettings"
+        android:icon="@drawable/ic_settings_applications"
+        android:orderInCategory="100"
+        android:title="@string/settings_title"
+        app:showAsAction="withText" />
 </menu>

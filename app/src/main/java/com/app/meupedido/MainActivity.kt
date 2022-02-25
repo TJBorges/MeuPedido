@@ -235,7 +235,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
@@ -243,6 +242,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.btArchived -> goToArchived("")
+            R.id.btSettings -> goToSettings()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -250,6 +250,11 @@ class MainActivity : AppCompatActivity() {
     private fun goToArchived(numberOrder: String) {
         val intent = Intent(this, ArchiveActivity::class.java)
         intent.putExtra("numberOrder", numberOrder)
+        startActivity(intent)
+    }
+
+    private fun goToSettings() {
+        val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
     }
 }

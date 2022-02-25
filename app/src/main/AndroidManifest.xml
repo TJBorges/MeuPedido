@@ -49,6 +49,11 @@
             android:label="@string/qr_code_title"
             android:parentActivityName="com.app.meupedido.QrCodeActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.app.meupedido.SettingsActivity"
+            android:label="@string/settings_title"
+            android:parentActivityName="com.app.meupedido.SettingsActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".service.MyFirebaseMessagingService"
