@@ -11,6 +11,7 @@ import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.app.meupedido.ArchiveActivity
+import com.app.meupedido.MainActivity
 import com.app.meupedido.R
 import com.app.meupedido.util.DataStore
 import com.app.meupedido.util.DateUtil
@@ -86,7 +87,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         mOrderViewModel.removeOrderToDatabase(number)
         mOrderViewModel.insertOrderToDatabase(number, getString(R.string.order_status_done))
 
-        val intent = Intent(this, ArchiveActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
         val pendingIntent =
