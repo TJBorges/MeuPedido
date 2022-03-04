@@ -20,7 +20,7 @@
     <string name="archived_list_empty">Você ainda não possui pedidos arquivados</string>
 
     <!-- settings -->
-    <string name="settings_description">Deseja que seus pedidos sejam arquivados automáticamente?</string>
+    <string name="settings_description">Deseja que seus pedidos sejam arquivados automaticamente?</string>
 
     <!-- new order -->
     <string name="new_order_label_page">Digite o código do seu pedido e clique em adicionar</string>
