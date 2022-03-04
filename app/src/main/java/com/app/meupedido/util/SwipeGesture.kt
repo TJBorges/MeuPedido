@@ -7,6 +7,7 @@ import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.app.meupedido.R.drawable
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 abstract class SwipeGesture(context: Context) : ItemTouchHelper.SimpleCallback(
@@ -21,7 +22,7 @@ abstract class SwipeGesture(context: Context) : ItemTouchHelper.SimpleCallback(
     private val archivedColor = Color.parseColor("#008a00")
     private val archivedIconColor = ContextCompat.getColor(context, R.color.white)
     private val archivedLabelColor = ContextCompat.getColor(context, R.color.white)
-    private val archivedIcon = R.drawable.stat_sys_download
+    private val archivedIcon = drawable.ic_archive
 
 
     override fun onMove(
